@@ -1,0 +1,15 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-brainhack-dev-212114-authRole",
+            "UnauthRoleArn": "arn:aws:iam::580951193642:role/amplify-brainhack-dev-212114-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::580951193642:role/amplify-brainhack-dev-212114-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-brainhack-dev-212114-deployment",
+            "UnauthRoleName": "amplify-brainhack-dev-212114-unauthRole",
+            "StackName": "amplify-brainhack-dev-212114",
+            "StackId": "arn:aws:cloudformation:us-east-1:580951193642:stack/amplify-brainhack-dev-212114/9c81b790-a341-11ea-9171-0ed24b955b13",
+            "AmplifyAppId": "didrp9vv99iqy"
+        }
+    }
+}
