@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Button } from 'react-native';
 
 class Home extends Component {
   render() {
-    return (<View><Text>Hi</Text></View>);
+    return (
+      <View>
+        <Button title="asda" onPress={() => console.log("hi!!")} />
+        <Text>Hi HELLO</Text>
+      </View>
+    );
   }
 }
 
