@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "405500606506",
+    "firebase_url": "https://brainhack-9c930.firebaseio.com",
+    "project_id": "brainhack-9c930",
+    "storage_bucket": "brainhack-9c930.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:405500606506:android:0384d30302705cb64cab53",
+        "android_client_info": {
+          "package_name": "com.brainhack"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "405500606506-da10kcmlvcousgcnot43fj1ao5qjem2h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.brainhack",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "405500606506-u688k84cf98u3t9iae75451qe1l354st.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQDkHTqWaVHZ07mjgtO6ioOARLWGrR7f4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "405500606506-u688k84cf98u3t9iae75451qe1l354st.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
