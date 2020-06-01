@@ -8,9 +8,4 @@ import { name as appName } from './app.json';
 
 import 'react-native-gesture-handler';
 
-import Amplify from 'aws-amplify';
-import config from './aws-exports';
-
-Amplify.configure(config)
-
 AppRegistry.registerComponent(appName, () => App);
