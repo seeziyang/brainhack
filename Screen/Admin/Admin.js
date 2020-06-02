@@ -2,16 +2,14 @@ import React, { Component } from 'react';
 
 import { Container, Content, Text } from 'native-base';
 
-import MyFooter from '../Components/MyFooter.js';
-
-class Stalls extends Component {
+class Admin extends Component {
   render() {
     return (
       <Container>
-        <Content><Text>stall page</Text></Content>
+        <Content><Text>admin page</Text></Content>
       </Container>
     );
   }
 }
 
-export default Stalls;
+export default Admin;

@@ -2,9 +2,10 @@ import React from 'react';
 
 import { Button, Text, Icon, Footer, FooterTab } from "native-base";
 
-import Stalls from './Screen/Stalls.js';
-import Orders from './Screen/Orders.js';
-import Me from './Screen/Me.js';
+import Locations from './Screen/Locations/Locations.js';
+import Admin from './Screen/Admin/Admin.js';
+import Login from './Screen/Admin/Login.js';
+import SignUp from './Screen/Admin/SignUp.js';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -16,9 +17,8 @@ const App = () => {
   return (
     <NavigationContainer>
       <Tab.Navigator tabBar={TabBar}>
-        <Tab.Screen name="Stalls" component={StallsStackNavigator} />
-        <Tab.Screen name="Orders" component={OrdersStackNavigator} />
-        <Tab.Screen name="Me" component={MeStackNavigator} />
+        <Tab.Screen name="Locations" component={LocationsStackNavigator} />
+        <Tab.Screen name="Admin" component={AdminStackNavigator} />
       </Tab.Navigator>
     </NavigationContainer>
   );
@@ -31,53 +31,39 @@ const TabBar = props => {
         <Button
           vertical
           active={props.state.index === 0}
-          onPress={() => props.navigation.navigate("Stalls")}>
+          onPress={() => props.navigation.navigate("Locations")}>
           <Icon name="bowtie" />
-          <Text>Stalls</Text>
+          <Text>Locations</Text>
         </Button>
         <Button
           vertical
           active={props.state.index === 1}
-          onPress={() => props.navigation.navigate("Orders")}>
+          onPress={() => props.navigation.navigate("Admin")}>
           <Icon name="briefcase" />
-          <Text>Orders</Text>
-        </Button>
-        <Button
-          vertical
-          active={props.state.index === 2}
-          onPress={() => props.navigation.navigate("Me")}>
-          <Icon name="headset" />
-          <Text>Me</Text>
+          <Text>Admin</Text>
         </Button>
       </FooterTab>
     </Footer>
   );
 }
 
-const StallsStack = createStackNavigator();
-const StallsStackNavigator = () => {
+const LocationsStack = createStackNavigator();
+const LocationsStackNavigator = () => {
   return (
-    <StallsStack.Navigator>
-      <StallsStack.Screen name="Stalls" component={Stalls} />
-    </StallsStack.Navigator>
+    <LocationsStack.Navigator>
+      <LocationsStack.Screen name="Locations" component={Locations} />
+    </LocationsStack.Navigator>
   );
 }
 
-const OrdersStack = createStackNavigator();
-const OrdersStackNavigator = () => {
+const AdminStack = createStackNavigator();
+const AdminStackNavigator = () => {
   return (
-    <OrdersStack.Navigator>
-      <OrdersStack.Screen name="Orders" component={Orders} />
-    </OrdersStack.Navigator>
-  );
-}
-
-const MeStack = createStackNavigator();
-const MeStackNavigator = () => {
-  return (
-    <MeStack.Navigator>
-      <MeStack.Screen name="Me" component={Me} />
-    </MeStack.Navigator>
+    <AdminStack.Navigator>
+      <AdminStack.Screen name="Login" component={Login} />
+      <AdminStack.Screen name="SignUp" component={SignUp} />
+      <AdminStack.Screen name="Admin" component={Admin} />
+    </AdminStack.Navigator>
   );
 }
 
