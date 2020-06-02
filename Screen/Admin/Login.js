@@ -1,15 +1,32 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Alert } from 'react-native';
 import { Container, Content, Form, Item, Input, Label, Button, Text } from 'native-base';
+
+import auth from '@react-native-firebase/auth';
 
 export default class Login extends Component {
   constructor(props) {
     super(props);
 
+    auth().onAuthStateChanged(user => {
+      if (user) { // sign in
+        this.props.navigation.reset({
+          index: 0,
+          routes: [{ name: 'Admin' }],
+        })
+      }
+    });
+
     this.state = {
       email: "",
       password: "",
     }
+  }
+
+  login = () => {
+    auth()
+      .signInWithEmailAndPassword(this.state.email, this.state.password)
+      .catch(error => Alert.alert(error.message));
   }
 
   render() {
@@ -32,7 +49,7 @@ export default class Login extends Component {
           <Button
             block
             style={styles.button}
-            onPress={() => { }}
+            onPress={this.login}
           >
             <Text>Login</Text>
           </Button>

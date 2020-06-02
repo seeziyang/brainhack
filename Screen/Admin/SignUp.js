@@ -47,10 +47,7 @@ export default class Login extends Component {
     auth()
       .createUserWithEmailAndPassword(email, password)
       .then(userCredentials => this.addStoreToDb(userCredentials.user.uid))
-      .then(() => this.props.navigation.reset({
-        index: 0,
-        routes: [{ name: 'Admin' }],
-      }))
+      // navigate to admin screen by listener in Login page
       .catch(error => {
         if (error.code === 'auth/email-already-in-use') {
           Alert.alert('Email address is already in use!');
