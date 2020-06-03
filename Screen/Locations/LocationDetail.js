@@ -135,6 +135,33 @@ export default class LocationDetail extends Component {
     }
   };
 
+  isUserLetIn = () => {
+    const { store, userQueueNo } = this.state;
+    return store.queue?.inQueue?.[userQueueNo]?.status === 'letIn';
+  };
+
+  enterLocation = async () => {
+    const storeId = this.props.route.params.storeId;
+
+    // remove from db
+    database()
+      .ref(`/stores/${storeId}/queue/inQueue/${this.state.userQueueNo}`)
+      .remove();
+
+    // update local storage
+    try {
+      const activeQueuesString = await AsyncStorage.getItem('activeQueues');
+      const activeQueues = (await JSON.parse(activeQueuesString)) ?? {};
+      delete activeQueues[storeId];
+      await AsyncStorage.setItem('activeQueues', JSON.stringify(activeQueues));
+    } catch (error) {
+      console.log(error);
+    }
+
+    // navigate back
+    this.props.navigation.goBack();
+  };
+
   render() {
     const { queue, storeInfo } = this.state.store;
     const { locAddress, locName, locPostalCode, locType } = storeInfo ?? {};
@@ -190,9 +217,32 @@ export default class LocationDetail extends Component {
                     <Text>{`There are ${this.getNumQueuersInFront()} person waiting in front of you.`}</Text>
                   </View>
                 )}
+
+                {this.state.isUserInQueue && this.isUserLetIn() && (
+                  <View>
+                    <Text>{`IT'S YOUR TURN, PLEASE ENTER THE LOCATION`}</Text>
+                  </View>
+                )}
               </View>
             </CardItem>
           </Card>
+
+          {this.isUserLetIn() && (
+            <Button
+              rounded
+              large
+              iconLeft
+              onPress={this.enterLocation}
+              style={styles.queueButton}
+            >
+              <Icon
+                ios="ios-walk"
+                android="md-walk"
+                style={styles.queueButtonText}
+              />
+              <Text style={styles.queueButtonText}>Entered</Text>
+            </Button>
+          )}
         </Content>
       </Container>
     );
