@@ -29,6 +29,12 @@ export default class Locations extends Component {
     this.listenToStores();
   }
 
+  componentWillUnmount() {
+    database()
+      .ref(`/stores`)
+      .off();
+  }
+
   listenToStores = () => {
     database()
       .ref(`/stores`)
