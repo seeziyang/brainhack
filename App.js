@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { Button, Text, Icon, Footer, FooterTab } from 'native-base';
-import { StyleSheet, View, Image } from 'react-native';
+import { StyleSheet, View, Alert } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import Locations from './Screen/Locations/Locations.js';
@@ -9,7 +9,7 @@ import LocationDetail from './Screen/Locations/LocationDetail.js';
 import Admin from './Screen/Admin/Admin.js';
 import Login from './Screen/Admin/Login.js';
 import SignUp from './Screen/Admin/SignUp.js';
-import Queuers from './Screen/User/Queuers.js';
+import MyQueues from './Screen/User/MyQueues.js';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -22,7 +22,14 @@ const Tab = createBottomTabNavigator();
 export default class App extends Component {
   componentDidMount() {
     this.checkPermissions();
+    this.suscribeToMsgs();
   }
+
+  suscribeToMsgs = () => {
+    messaging().onMessage(message => {
+      Alert.alert(message.data?.msg);
+    });
+  };
 
   checkPermissions = async () => {
     const hasPermission = await messaging().hasPermission();
@@ -90,7 +97,7 @@ const TabBar = props => {
           onPress={() => props.navigation.navigate('User')}
         >
           <Icon name="briefcase" />
-          <Text>User</Text>
+          <Text>My Queues</Text>
         </Button>
 
         <Button
@@ -115,7 +122,10 @@ const LocationsStackNavigator = () => {
         name="Location"
         component={Locations}
       />
-      <LocationsStack.Screen name="LocationDetail" component={LocationDetail} />
+      <LocationsStack.Screen
+        name="Location Detail"
+        component={LocationDetail}
+      />
     </LocationsStack.Navigator>
   );
 };
@@ -135,7 +145,7 @@ const UserStack = createStackNavigator();
 const UserStackNavigator = () => {
   return (
     <UserStack.Navigator>
-      <UserStack.Screen name="User" component={Queuers} />
+      <UserStack.Screen name="My Queues" component={MyQueues} />
     </UserStack.Navigator>
   );
 };
