@@ -108,7 +108,6 @@ export default class Locations extends Component {
       // const filteredVal = data.filter(item => {
       //   item[1]?.storeInfo?.locAddress.contains(search);
       // });
-
       data = data.filter(item => item[1]?.storeInfo?.locName.includes(search));
 
       return data.map(item => {
@@ -192,7 +191,7 @@ export default class Locations extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#EBECF4',
+    backgroundColor: 'rgb(40, 53, 147 )',
   },
   header: {
     paddingTop: 64,
