@@ -41,9 +41,6 @@ export default class Admin extends Component {
   }
 
   toggleQueueActive = () => {
-    console.log(`/admins/${auth().currentUser.uid}/storeId`)
-    console.log(this.state)
-    console.log("storeID: " + this.storeId)
     const prevState = this.state.isQueueActive;
     this.setState({ isQueueActive: !prevState });
   }
