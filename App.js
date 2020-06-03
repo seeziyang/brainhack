@@ -3,6 +3,7 @@ import React from 'react';
 import { Button, Text, Icon, Footer, FooterTab } from 'native-base';
 
 import Locations from './Screen/Locations/Locations.js';
+import LocationDetail from './Screen/Locations/LocationDetail.js';
 import Admin from './Screen/Admin/Admin.js';
 import Login from './Screen/Admin/Login.js';
 import SignUp from './Screen/Admin/SignUp.js';
@@ -66,6 +67,7 @@ const LocationsStackNavigator = () => {
   return (
     <LocationsStack.Navigator>
       <LocationsStack.Screen name="Locations" component={Locations} />
+      <LocationsStack.Screen name="LocationDetail" component={LocationDetail} />
     </LocationsStack.Navigator>
   );
 };
