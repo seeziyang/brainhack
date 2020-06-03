@@ -179,56 +179,57 @@ export default class LocationDetail extends Component {
       <View style={styles.container}>
         <Content style={styles.card}>
           <Header />
-
-          <Text
-            style={{
-              fontFamily: 'Hiragino Sans',
-              fontSize: 30,
-              fontWeight: 'bold',
-              justifyContent: 'center',
-              textAlignVertical: 'center',
-              textAlign: 'center',
-            }}
-          >
-            {locName}
-          </Text>
-
-          {this.state.isUserInQueue && (
-            <View
+          <Card>
+            <Text
               style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                Text_Padding: 100,
+                fontFamily: 'Hiragino Sans',
+                fontSize: 30,
+                fontWeight: 'bold',
                 justifyContent: 'center',
                 textAlignVertical: 'center',
                 textAlign: 'center',
               }}
             >
-              <Text
+              {locName}
+            </Text>
+
+            {this.state.isUserInQueue && (
+              <View
                 style={{
-                  fontFamily: 'Georgia',
-                  fontSize: 15,
-                  fontWeight: 'bold',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  Text_Padding: 100,
+                  justifyContent: 'center',
+                  textAlignVertical: 'center',
+                  textAlign: 'center',
                 }}
-              >{` ${this.getNumQueuersInFront()} person before you.`}</Text>
-            </View>
-          )}
-          <Button
-            rounded
-            large
-            success
-            iconLeft
-            disabled={this.state.isUserInQueue || !isActive}
-            onPress={this.joinQueue}
-            style={styles.queueButton}
-          >
-            <Icon
-              ios="ios-walk"
-              android="md-walk"
-              style={styles.queueButtonText}
-            />
-            <Text style={styles.queueButtonText}>Queue</Text>
-          </Button>
+              >
+                <Text
+                  style={{
+                    fontFamily: 'Georgia',
+                    fontSize: 15,
+                    fontWeight: 'bold',
+                  }}
+                >{` ${this.getNumQueuersInFront()} person before you.`}</Text>
+              </View>
+            )}
+            <Button
+              rounded
+              large
+              success
+              iconLeft
+              disabled={this.state.isUserInQueue || !isActive}
+              onPress={this.joinQueue}
+              style={styles.queueButton}
+            >
+              <Icon
+                ios="ios-walk"
+                android="md-walk"
+                style={styles.queueButtonText}
+              />
+              <Text style={styles.queueButtonText}>Queue</Text>
+            </Button>
+          </Card>
 
           <Card>
             <CardItem>
@@ -362,8 +363,8 @@ const styles = StyleSheet.create({
   },
   card: {
     flex: 1,
-    borderRadius: 1,
-    borderWidth: 2,
+    borderRadius: 30,
+    borderWidth: 30,
     backgroundColor: 'white',
   },
 });
