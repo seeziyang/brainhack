@@ -6,6 +6,7 @@ import Locations from './Screen/Locations/Locations.js';
 import Admin from './Screen/Admin/Admin.js';
 import Login from './Screen/Admin/Login.js';
 import SignUp from './Screen/Admin/SignUp.js';
+import Queuers from './Screen/User/Queuers.js';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -19,6 +20,7 @@ const App = () => {
       <Tab.Navigator tabBar={TabBar}>
         <Tab.Screen name="Locations" component={LocationsStackNavigator} />
         <Tab.Screen name="Admin" component={AdminStackNavigator} />
+        <Tab.Screen name="User" component={UserStackNavigator} />
       </Tab.Navigator>
     </NavigationContainer>
   );
@@ -42,6 +44,15 @@ const TabBar = props => {
           <Icon name="briefcase" />
           <Text>Admin</Text>
         </Button>
+
+        <Button
+          vertical
+          active={props.state.index === 1}
+          onPress={() => props.navigation.navigate("User")}>
+          <Icon name="briefcase" />
+          <Text>User</Text>
+        </Button>
+
       </FooterTab>
     </Footer>
   );
@@ -66,5 +77,17 @@ const AdminStackNavigator = () => {
     </AdminStack.Navigator>
   );
 }
+
+
+const UserStack = createStackNavigator();
+const UserStackNavigator = () => {
+  return (
+    <UserStack.Navigator>
+      <UserStack.Screen name="User" component={Queuers} />
+    </UserStack.Navigator>
+  );
+}
+
+
 
 export default App;
