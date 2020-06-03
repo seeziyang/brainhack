@@ -19,8 +19,8 @@ const App = () => {
     <NavigationContainer>
       <Tab.Navigator tabBar={TabBar}>
         <Tab.Screen name="Locations" component={LocationsStackNavigator} />
-        <Tab.Screen name="Admin" component={AdminStackNavigator} />
         <Tab.Screen name="User" component={UserStackNavigator} />
+        <Tab.Screen name="Admin" component={AdminStackNavigator} />
       </Tab.Navigator>
     </NavigationContainer>
   );
@@ -37,20 +37,21 @@ const TabBar = props => {
           <Icon name="bowtie" />
           <Text>Locations</Text>
         </Button>
+
         <Button
           vertical
           active={props.state.index === 1}
-          onPress={() => props.navigation.navigate("Admin")}>
+          onPress={() => props.navigation.navigate("User")}>
           <Icon name="briefcase" />
-          <Text>Admin</Text>
+          <Text>User</Text>
         </Button>
 
         <Button
           vertical
           active={props.state.index === 2}
-          onPress={() => props.navigation.navigate("User")}>
+          onPress={() => props.navigation.navigate("Admin")}>
           <Icon name="briefcase" />
-          <Text>User</Text>
+          <Text>Admin</Text>
         </Button>
 
       </FooterTab>
