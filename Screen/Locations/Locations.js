@@ -1,6 +1,19 @@
 import React, { Component } from 'react';
 import { Image } from 'react-native';
-import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right } from 'native-base';
+import {
+  Container,
+  Header,
+  Content,
+  Card,
+  CardItem,
+  Thumbnail,
+  Text,
+  Button,
+  Icon,
+  Left,
+  Body,
+  Right,
+} from 'native-base';
 
 export default class CardImageExample extends Component {
   render() {
@@ -19,7 +32,12 @@ export default class CardImageExample extends Component {
               </Left>
             </CardItem>
             <CardItem cardBody>
-              <Image source={{ uri: 'https://www.jem.sg/Files/331img_aboutjem_top.png' }} style={{ height: 200, width: null, flex: 1 }} />
+              <Image
+                source={{
+                  uri: 'https://www.jem.sg/Files/331img_aboutjem_top.png',
+                }}
+                style={{ height: 200, width: null, flex: 1 }}
+              />
             </CardItem>
             <CardItem>
               <Left>
