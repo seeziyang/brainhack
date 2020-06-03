@@ -54,14 +54,33 @@ export default class Locations extends Component {
                 }
               >
                 <Body>
-                  <Text>{item[1]?.storeInfo?.locName}</Text>
+                  <Text style={{ fontFamily: 'Iowan Old Style' }}>
+                    {item[1]?.storeInfo?.locName}
+                  </Text>
                   <CardItem cardBody>
                     <Image
-                      source={{ uri: '{item[1]?.storeInfo?.image}' }}
+                      source={{ uri: `${item[1]?.storeInfo?.image}` }}
                       style={{ height: 200, width: null, flex: 1 }}
                     />
                   </CardItem>
                 </Body>
+              </CardItem>
+              <CardItem>
+                <Left>
+                  <Button transparent>
+                    <Icon active name="navigate" />
+                    <Text>{item[1]?.storeInfo?.locAddress}</Text>
+                  </Button>
+                </Left>
+                <Body>
+                  <Button transparent>
+                    <Icon active name="chatbubbles" />
+                    <Text>Reviews: {item[1]?.storeInfo?.reviews}</Text>
+                  </Button>
+                </Body>
+                <Right>
+                  <Text>11h ago</Text>
+                </Right>
               </CardItem>
             </Card>
           )}
