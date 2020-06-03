@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet } from 'react-native';
-import { Container, Content, Card, CardItem, Body, Text } from 'native-base';
+import { FlatList, StyleSheet, View } from 'react-native';
+import { Container, Content, Card, CardItem, Icon, Text } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import database from '@react-native-firebase/database';
@@ -65,27 +65,63 @@ export default class MyQueues extends Component {
     }
   };
 
+  getNumQueuersInFront = (store, userQueueNo) => {
+    let inQueueNumbers = Object.keys(store.queue?.inQueue ?? {});
+    let userIndex = inQueueNumbers.indexOf(userQueueNo);
+    if (userIndex === -1) {
+      return 0; // should not happen
+    } else {
+      return userIndex;
+    }
+  };
+
+  isUserLetIn = (store, userQueueNo) => {
+    return store.queue?.inQueue?.[userQueueNo]?.status === 'letIn';
+  };
+
   render() {
     const nav = this.props.navigation;
 
     return (
       <Container>
-        <Content>
+        <Content style={{ backgroundColor: 'rgb(40, 53, 147)' }}>
           <FlatList
             data={Object.entries(this.state.stores)}
             renderItem={({ item }) => (
-              <Card>
-                <CardItem
-                  button
-                  onPress={() =>
-                    nav.navigate('Location Detail', { storeId: item[0] })
-                  }
-                >
-                  <Body>
-                    <Text>{item[1]?.storeInfo?.locName}</Text>
-                  </Body>
-                </CardItem>
-              </Card>
+              <View style={styles.card}>
+                <Card>
+                  <CardItem
+                    button
+                    onPress={() =>
+                      nav.navigate('Location Detail', { storeId: item[0] })
+                    }
+                  >
+                    <View style={styles.infoLine}>
+                      <Text style={styles.locName}>
+                        {item[1]?.storeInfo?.locName}
+                      </Text>
+                      {this.isUserLetIn(
+                        item[1],
+                        this.state.activeQueues[item[0]]
+                      ) ? (
+                        <Icon name="log-in" />
+                      ) : (
+                        <View style={{ flexDirection: 'row' }}>
+                          <Text
+                            style={{ ...styles.locName, marginHorizontal: 5 }}
+                          >
+                            {`${this.getNumQueuersInFront(
+                              item[1],
+                              this.state.activeQueues[item[0]]
+                            )}`}
+                          </Text>
+                          <Icon name="walk" />
+                        </View>
+                      )}
+                    </View>
+                  </CardItem>
+                </Card>
+              </View>
             )}
             keyExtractor={item => item[0]}
           />
@@ -98,6 +134,15 @@ export default class MyQueues extends Component {
 const styles = StyleSheet.create({
   content: {
     // padding: 10,
+  },
+  card: {
+    marginHorizontal: 10,
+    marginVertical: 3,
+  },
+  infoLine: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   title: {
     margin: 10,
@@ -114,5 +159,9 @@ const styles = StyleSheet.create({
   },
   button: {
     margin: 10,
+  },
+  locName: {
+    fontSize: 22,
+    fontWeight: 'bold',
   },
 });
