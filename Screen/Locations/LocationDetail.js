@@ -48,6 +48,29 @@ export default class LocationDetail extends Component {
       .off();
   }
 
+  leaveQueue = async () => {
+    const storeId = this.props.route.params.storeId;
+
+    database()
+      .ref(`/stores/${storeId}/queue/inQueue/${this.state.userQueueNo}`)
+      .remove();
+
+    await database()
+      .ref(`/stores/${storeId}`)
+      .off();
+
+    try {
+      const activeQueuesString = await AsyncStorage.getItem('activeQueues');
+      const activeQueues = (await JSON.parse(activeQueuesString)) ?? {};
+      delete activeQueues[storeId];
+      await AsyncStorage.setItem('activeQueues', JSON.stringify(activeQueues));
+    } catch (error) {
+      console.log(error);
+    }
+
+    this.props.navigation.goBack();
+  };
+
   listenToStore = () => {
     const storeId = this.props.route.params.storeId;
 
@@ -176,18 +199,17 @@ export default class LocationDetail extends Component {
     const numQueuers = Object.keys(queue?.inQueue ?? {}).length;
 
     return (
-      <View style={styles.container}>
+      <Container style={styles.container}>
         <Content style={styles.card}>
-          <Header />
-
           <Text
             style={{
               fontFamily: 'Hiragino Sans',
-              fontSize: 30,
+              fontSize: 32,
               fontWeight: 'bold',
               justifyContent: 'center',
               textAlignVertical: 'center',
               textAlign: 'center',
+              margin: 10,
             }}
           >
             {locName}
@@ -205,12 +227,8 @@ export default class LocationDetail extends Component {
               }}
             >
               <Text
-                style={{
-                  fontFamily: 'Georgia',
-                  fontSize: 15,
-                  fontWeight: 'bold',
-                }}
-              >{` ${this.getNumQueuersInFront()} person before you.`}</Text>
+                style={styles.heavyText}
+              >{`${this.getNumQueuersInFront()} person before you.`}</Text>
             </View>
           )}
           <Button
@@ -235,12 +253,21 @@ export default class LocationDetail extends Component {
               <View>
                 <View>
                   <Body>
-                    <Text>Type: {locType}</Text>
-                    <Text>Address: {locAddress}</Text>
-                    <Text>Postal Code: {locPostalCode}</Text>
+                    <Text style={styles.text}>Type: {locType}</Text>
+                    <Text style={styles.text}>Address: {locAddress}</Text>
+                    <Text style={styles.text}>
+                      Postal Code: {locPostalCode}
+                    </Text>
                   </Body>
                 </View>
-                <Text>
+              </View>
+            </CardItem>
+          </Card>
+
+          <Card>
+            <CardItem>
+              <View>
+                <Text style={styles.text}>
                   {isActive
                     ? `${numQueuers} person waiting in line`
                     : 'Location is not opened!'}
@@ -248,25 +275,32 @@ export default class LocationDetail extends Component {
 
                 {this.state.isUserInQueue && (
                   <View>
-                    <Text>{`Your Queue No: ${this.state.userQueueNo}`}</Text>
-                    <Text>{`There are ${this.getNumQueuersInFront()} person waiting in front of you.`}</Text>
-                  </View>
-                )}
-
-                {this.state.isUserInQueue && this.isUserLetIn() && (
-                  <View>
-                    <Text>{`IT'S YOUR TURN, PLEASE ENTER THE LOCATION`}</Text>
+                    <Text style={styles.text}>{`Your Queue No: ${
+                      this.state.userQueueNo
+                    }`}</Text>
+                    <Text
+                      style={styles.text}
+                    >{`There are ${this.getNumQueuersInFront()} person waiting in front of you.`}</Text>
                   </View>
                 )}
               </View>
             </CardItem>
           </Card>
 
+          {this.state.isUserInQueue && this.isUserLetIn() && (
+            <View>
+              <Text
+                style={styles.heavyText}
+              >{`It's your turn, please enter the location!`}</Text>
+            </View>
+          )}
+
           {this.isUserLetIn() && (
             <Button
               rounded
               large
               iconLeft
+              info
               onPress={this.enterLocation}
               style={styles.queueButton}
             >
@@ -278,8 +312,26 @@ export default class LocationDetail extends Component {
               <Text style={styles.queueButtonText}>Entered</Text>
             </Button>
           )}
+
+          {this.state.isUserInQueue && (
+            <Button
+              rounded
+              large
+              iconLeft
+              danger
+              onPress={this.leaveQueue}
+              style={styles.queueButton}
+            >
+              <Icon
+                ios="ios-close-circle-outline"
+                android="md-close-circle-outline"
+                style={styles.queueButtonText}
+              />
+              <Text style={styles.queueButtonText}>Leave</Text>
+            </Button>
+          )}
         </Content>
-      </View>
+      </Container>
     );
   }
 }
@@ -297,13 +349,13 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   container: {
-    flex: 1,
-    backgroundColor: 'rgb(40, 53, 147  )',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderBottomWidth: 1,
-    borderRadius: 1,
-    borderWidth: 2,
+    padding: 5,
+  },
+  heavyText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    margin: 5,
   },
   header: {
     paddingTop: 64,
@@ -326,8 +378,12 @@ const styles = StyleSheet.create({
   feed: {
     marginHorizontal: 16,
   },
+  text: {
+    fontSize: 20,
+    margin: 5,
+  },
   feedItem: {
-    backgroundColor: '#FFF',
+    // backgroundColor: '#FFF',
     borderRadius: 5,
     padding: 8,
     flexDirection: 'row',
@@ -362,8 +418,8 @@ const styles = StyleSheet.create({
   },
   card: {
     flex: 1,
-    borderRadius: 1,
-    borderWidth: 2,
+    // borderRadius: 1,
+    // borderWidth: 2,
     backgroundColor: 'white',
   },
 });

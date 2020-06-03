@@ -3,11 +3,10 @@ import { FlatList, StyleSheet, View, Image } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import {
   Container,
-  Header,
+  Fab,
   Content,
   Card,
   CardItem,
-  Thumbnail,
   Text,
   Button,
   Icon,
@@ -54,57 +53,57 @@ export default class Locations extends Component {
   renderStalls = (search = 0) => {
     if (search.length == 0) {
       return (
-        <View>
-          <FlatList
-            style={styles.feed}
-            data={Object.entries(this.state.stores)}
-            renderItem={({ item }) => (
-              <Card>
-                <CardItem
-                  button
-                  onPress={() =>
-                    this.props.navigation.navigate('Location Detail', {
-                      storeId: item[0],
-                    })
-                  }
-                >
-                  <Body>
-                    <Text style={{ fontFamily: 'Iowan Old Style' }}>
-                      {item[1]?.storeInfo?.locName}
-                    </Text>
-                    <CardItem cardBody>
-                      <Image
-                        source={{ uri: `${item[1]?.storeInfo?.image}` }}
-                        style={{ height: 200, width: null, flex: 1 }}
-                      />
-                    </CardItem>
-                  </Body>
-                </CardItem>
-                <CardItem>
-                  <Left>
-                    <Button transparent>
-                      <Icon active name="navigate" />
-                      <Text>{item[1]?.storeInfo?.locAddress}</Text>
-                    </Button>
-                  </Left>
-                  <Body>
-                    <Button transparent>
-                      <Icon active name="chatbubbles" />
-                      <Text>Reviews: {item[1]?.storeInfo?.reviews}</Text>
-                    </Button>
-                  </Body>
-                  <Right>
-                    <Text>11h ago</Text>
-                  </Right>
-                </CardItem>
-              </Card>
-            )}
-            keyExtractor={item => item[0]}
-          />
-        </View>
+        <Container>
+          <Content style={{ backgroundColor: 'rgb(40, 53, 147)' }}>
+            <FlatList
+              style={styles.feed}
+              data={Object.entries(this.state.stores)}
+              renderItem={({ item }) => (
+                <Card>
+                  <CardItem
+                    button
+                    onPress={() =>
+                      this.props.navigation.navigate('Location Detail', {
+                        storeId: item[0],
+                      })
+                    }
+                  >
+                    <Body>
+                      <Text>{item[1]?.storeInfo?.locName}</Text>
+                      <CardItem cardBody>
+                        <Image
+                          source={{ uri: `${item[1]?.storeInfo?.image}` }}
+                          style={{ height: 200, width: null, flex: 1 }}
+                        />
+                      </CardItem>
+                    </Body>
+                  </CardItem>
+                  <CardItem>
+                    <Left>
+                      <Button transparent>
+                        <Icon active name="navigate" />
+                        <Text>{item[1]?.storeInfo?.locAddress}</Text>
+                      </Button>
+                    </Left>
+                    <Body>
+                      <Button transparent>
+                        <Icon active name="chatbubbles" />
+                        <Text>Reviews: {item[1]?.storeInfo?.reviews}</Text>
+                      </Button>
+                    </Body>
+                    <Right>
+                      <Text>11h ago</Text>
+                    </Right>
+                  </CardItem>
+                </Card>
+              )}
+              keyExtractor={item => item[0]}
+            />
+          </Content>
+        </Container>
       );
     } else {
-      data = Object.entries(this.state.stores);
+      let data = Object.entries(this.state.stores);
       // const filteredVal = data.filter(item => {
       //   item[1]?.storeInfo?.locAddress.contains(search);
       // });
@@ -178,7 +177,7 @@ export default class Locations extends Component {
             backgroundColor: 'white',
           }}
           placeholderTextColor={'#g5g5g5'}
-          placeholder="Search for store..."
+          placeholder="Search for locations..."
           onChangeText={this.updateSearch}
           value={search}
         />
@@ -191,7 +190,7 @@ export default class Locations extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgb(40, 53, 147 )',
+    backgroundColor: 'rgb(40, 53, 147)',
   },
   header: {
     paddingTop: 64,
