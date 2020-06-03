@@ -37,6 +37,12 @@ export default class Locations extends Component {
     this.setState({ search });
   };
 
+  componentWillUnmount() {
+    database()
+      .ref(`/stores`)
+      .off();
+  }
+
   listenToStores = () => {
     database()
       .ref(`/stores`)
@@ -102,8 +108,14 @@ export default class Locations extends Component {
       // const filteredVal = data.filter(item => {
       //   item[1]?.storeInfo?.locAddress.contains(search);
       // });
+<<<<<<< HEAD
       data = data.filter(item => item[1]?.storeInfo?.locName.includes(search));
 
+=======
+
+      data = data.filter(item => item[1]?.storeInfo?.locName.includes(search));
+
+>>>>>>> master
       return data.map(item => {
         return (
           <View>
