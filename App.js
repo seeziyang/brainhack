@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import { Button, Text, Icon, Footer, FooterTab } from 'native-base';
 import { StyleSheet, View, Image } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import Locations from './Screen/Locations/Locations.js';
 import LocationDetail from './Screen/Locations/LocationDetail.js';
@@ -14,19 +15,60 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 
+import messaging from '@react-native-firebase/messaging';
+
 const Tab = createBottomTabNavigator();
 
-const App = () => {
-  return (
-    <NavigationContainer>
-      <Tab.Navigator tabBar={TabBar}>
-        <Tab.Screen name="Locations" component={LocationsStackNavigator} />
-        <Tab.Screen name="User" component={UserStackNavigator} />
-        <Tab.Screen name="Admin" component={AdminStackNavigator} />
-      </Tab.Navigator>
-    </NavigationContainer>
-  );
-};
+export default class App extends Component {
+  componentDidMount() {
+    this.checkPermissions();
+  }
+
+  checkPermissions = async () => {
+    const hasPermission = await messaging().hasPermission();
+    if (hasPermission) {
+      this.getToken();
+    } else {
+      this.requestPermission();
+    }
+  };
+
+  getToken = async () => {
+    this.fcmToken = await AsyncStorage.getItem('fcmToken');
+    if (!this.fcmToken) {
+      this.fcmToken = await messaging().getToken();
+      if (this.fcmToken) {
+        // user has a device token
+        await AsyncStorage.setItem('fcmToken', this.fcmToken);
+      }
+    }
+
+    console.log(this.fcmToken);
+  };
+
+  requestPermission = async () => {
+    try {
+      await messaging().requestPermission();
+      // User has authorised
+      this.getToken();
+    } catch (error) {
+      // User has rejected permissions
+      console.log('fcmToken permission rejected');
+    }
+  };
+
+  render() {
+    return (
+      <NavigationContainer>
+        <Tab.Navigator tabBar={TabBar}>
+          <Tab.Screen name="Locations" component={LocationsStackNavigator} />
+          <Tab.Screen name="User" component={UserStackNavigator} />
+          <Tab.Screen name="Admin" component={AdminStackNavigator} />
+        </Tab.Navigator>
+      </NavigationContainer>
+    );
+  }
+}
 
 const TabBar = props => {
   return (
@@ -97,8 +139,6 @@ const UserStackNavigator = () => {
     </UserStack.Navigator>
   );
 };
-
-export default App;
 
 const styles = StyleSheet.create({
   container: {
