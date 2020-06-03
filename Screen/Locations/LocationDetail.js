@@ -171,6 +171,10 @@ export default class LocationDetail extends Component {
                     ? `${numQueuers} person waiting in line`
                     : 'Location is not opened!'}
                 </Text>
+
+                {this.state.isUserInQueue && (
+                  <Text>There are TODO person waiting in front of you.</Text>
+                )}
               </View>
             </CardItem>
           </Card>
