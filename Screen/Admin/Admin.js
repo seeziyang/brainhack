@@ -11,7 +11,7 @@ export default class Admin extends Component {
     super(props);
 
     this.state = {
-      isQueueActive: true,
+      isQueueActive: false,
       inQueue: {},
     };
   }
@@ -36,6 +36,12 @@ export default class Admin extends Component {
       .ref(`/stores/${this.storeId}/queue/inQueue`)
       .on('value', snapshot => {
         this.setState({ inQueue: snapshot.val() ?? {} });
+      });
+
+    database()
+      .ref(`/stores/${this.storeId}/queue/isActive`)
+      .on('value', snapshot => {
+        this.setState({ isQueueActive: snapshot.val() ?? false });
       });
   };
 
