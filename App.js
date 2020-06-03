@@ -86,7 +86,7 @@ const TabBar = props => {
           active={props.state.index === 0}
           onPress={() => props.navigation.navigate('Locations')}
         >
-          <Icon name="bowtie" />
+          <Icon ios="ios-map" android="md-map" />
           <View style={styles.container} />
           <Text>Locations</Text>
         </Button>
@@ -96,7 +96,7 @@ const TabBar = props => {
           active={props.state.index === 1}
           onPress={() => props.navigation.navigate('User')}
         >
-          <Icon name="briefcase" />
+          <Icon ios="ios-navigate" android="md-navigate" />
           <Text>My Queues</Text>
         </Button>
 

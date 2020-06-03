@@ -117,7 +117,7 @@ export default class Locations extends Component {
               <CardItem
                 button
                 onPress={() =>
-                  this.props.navigation.navigate('LocationDetail', {
+                  this.props.navigation.navigate('Location Detail', {
                     storeId: item[0],
                   })
                 }
