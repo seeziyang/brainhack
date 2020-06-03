@@ -32,7 +32,7 @@ export default class Admin extends Component {
   };
 
   listenToQueue = () => {
-    this.queueListener = database()
+    database()
       .ref(`/stores/${this.storeId}/queue/inQueue`)
       .on('value', snapshot => {
         this.setState({ inQueue: snapshot.val() ?? {} });
