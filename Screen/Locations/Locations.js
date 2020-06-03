@@ -102,59 +102,61 @@ export default class Locations extends Component {
       // const filteredVal = data.filter(item => {
       //   item[1]?.storeInfo?.locAddress.contains(search);
       // });
-      data.forEach(item => {
-        if (item[1]?.storeInfo?.locName.includes(search)) {
-          return (
-            <View>
-              <Card>
-                <CardItem
-                  button
-                  onPress={() =>
-                    this.props.navigation.navigate('LocationDetail', {
-                      storeId: item[0],
-                    })
-                  }
-                >
-                  <Body>
-                    <Text style={{ fontFamily: 'Iowan Old Style' }}>
-                      {item[1]?.storeInfo?.locName}
-                    </Text>
-                    <CardItem cardBody>
-                      <Image
-                        source={{ uri: `${item[1]?.storeInfo?.image}` }}
-                        style={{ height: 200, width: null, flex: 1 }}
-                      />
-                    </CardItem>
-                  </Body>
-                </CardItem>
-                <CardItem>
-                  <Left>
-                    <Button transparent>
-                      <Icon active name="navigate" />
-                      <Text>{item[1]?.storeInfo?.locAddress}</Text>
-                    </Button>
-                  </Left>
-                  <Body>
-                    <Button transparent>
-                      <Icon active name="chatbubbles" />
-                      <Text>Reviews: {item[1]?.storeInfo?.reviews}</Text>
-                    </Button>
-                  </Body>
-                  <Right>
-                    <Text>11h ago</Text>
-                  </Right>
-                </CardItem>
-              </Card>
-              )}
-            </View>
-          );
+      data = data.filter(item => item[1]?.storeInfo?.locName.includes(search));
 
-          // console.log(item[1]?.storeInfo?.locName);
-        } else {
-          console.log('no MATCH');
-        }
-        // console.log(element[1]?.storeInfo?.locAddress);
+      return data.map(item => {
+        return (
+          <View>
+            <Card>
+              <CardItem
+                button
+                onPress={() =>
+                  this.props.navigation.navigate('LocationDetail', {
+                    storeId: item[0],
+                  })
+                }
+              >
+                <Body>
+                  <Text style={{ fontFamily: 'Iowan Old Style' }}>
+                    {item[1]?.storeInfo?.locName}
+                  </Text>
+                  <CardItem cardBody>
+                    <Image
+                      source={{ uri: `${item[1]?.storeInfo?.image}` }}
+                      style={{ height: 200, width: null, flex: 1 }}
+                    />
+                  </CardItem>
+                </Body>
+              </CardItem>
+              <CardItem>
+                <Left>
+                  <Button transparent>
+                    <Icon active name="navigate" />
+                    <Text>{item[1]?.storeInfo?.locAddress}</Text>
+                  </Button>
+                </Left>
+                <Body>
+                  <Button transparent>
+                    <Icon active name="chatbubbles" />
+                    <Text>Reviews: {item[1]?.storeInfo?.reviews}</Text>
+                  </Button>
+                </Body>
+                <Right>
+                  <Text>11h ago</Text>
+                </Right>
+              </CardItem>
+            </Card>
+          </View>
+        );
+
+        // console.log(item[1]?.storeInfo?.locName);
       });
+      //  else {
+      //   console.log('no MATCH');
+      //   console.log(item[1]?.storeInfo?.locName);
+      // }
+      // console.log(element[1]?.storeInfo?.locAddress);
+      // });
     }
   };
 
