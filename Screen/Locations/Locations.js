@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { FlatList, StyleSheet, View, Image } from 'react-native';
+import { SearchBar } from 'react-native-elements';
 import {
   Container,
   Header,
@@ -22,12 +23,19 @@ export default class Locations extends Component {
 
     this.state = {
       stores: {},
+      search: '',
     };
+    this.renderStalls = this.renderStalls.bind(this);
+    this.updateSearch = this.updateSearch.bind(this);
   }
 
   componentDidMount() {
     this.listenToStores();
   }
+
+  updateSearch = search => {
+    this.setState({ search });
+  };
 
   componentWillUnmount() {
     database()
@@ -43,36 +51,139 @@ export default class Locations extends Component {
       });
   };
 
-  render() {
-    const nav = this.props.navigation;
+  renderStalls = (search = 0) => {
+    if (search.length == 0) {
+      return (
+        <View>
+          <FlatList
+            style={styles.feed}
+            data={Object.entries(this.state.stores)}
+            renderItem={({ item }) => (
+              <Card>
+                <CardItem
+                  button
+                  onPress={() =>
+                    this.props.navigation.navigate('LocationDetail', {
+                      storeId: item[0],
+                    })
+                  }
+                >
+                  <Body>
+                    <Text style={{ fontFamily: 'Iowan Old Style' }}>
+                      {item[1]?.storeInfo?.locName}
+                    </Text>
+                    <CardItem cardBody>
+                      <Image
+                        source={{ uri: `${item[1]?.storeInfo?.image}` }}
+                        style={{ height: 200, width: null, flex: 1 }}
+                      />
+                    </CardItem>
+                  </Body>
+                </CardItem>
+                <CardItem>
+                  <Left>
+                    <Button transparent>
+                      <Icon active name="navigate" />
+                      <Text>{item[1]?.storeInfo?.locAddress}</Text>
+                    </Button>
+                  </Left>
+                  <Body>
+                    <Button transparent>
+                      <Icon active name="chatbubbles" />
+                      <Text>Reviews: {item[1]?.storeInfo?.reviews}</Text>
+                    </Button>
+                  </Body>
+                  <Right>
+                    <Text>11h ago</Text>
+                  </Right>
+                </CardItem>
+              </Card>
+            )}
+            keyExtractor={item => item[0]}
+          />
+        </View>
+      );
+    } else {
+      data = Object.entries(this.state.stores);
+      // const filteredVal = data.filter(item => {
+      //   item[1]?.storeInfo?.locAddress.contains(search);
+      // });
 
-    return (
-      <View style={styles.container}>
-        <FlatList
-          style={styles.feed}
-          data={Object.entries(this.state.stores)}
-          renderItem={({ item }) => (
+      data = data.filter(item => item[1]?.storeInfo?.locName.includes(search));
+
+      return data.map(item => {
+        return (
+          <View>
             <Card>
               <CardItem
                 button
                 onPress={() =>
-                  nav.navigate('LocationDetail', { storeId: item[0] })
+                  this.props.navigation.navigate('LocationDetail', {
+                    storeId: item[0],
+                  })
                 }
               >
                 <Body>
-                  <Text>{item[1]?.storeInfo?.locName}</Text>
+                  <Text style={{ fontFamily: 'Iowan Old Style' }}>
+                    {item[1]?.storeInfo?.locName}
+                  </Text>
                   <CardItem cardBody>
                     <Image
-                      source={{ uri: '{item[1]?.storeInfo?.image}' }}
+                      source={{ uri: `${item[1]?.storeInfo?.image}` }}
                       style={{ height: 200, width: null, flex: 1 }}
                     />
                   </CardItem>
                 </Body>
               </CardItem>
+              <CardItem>
+                <Left>
+                  <Button transparent>
+                    <Icon active name="navigate" />
+                    <Text>{item[1]?.storeInfo?.locAddress}</Text>
+                  </Button>
+                </Left>
+                <Body>
+                  <Button transparent>
+                    <Icon active name="chatbubbles" />
+                    <Text>Reviews: {item[1]?.storeInfo?.reviews}</Text>
+                  </Button>
+                </Body>
+                <Right>
+                  <Text>11h ago</Text>
+                </Right>
+              </CardItem>
             </Card>
-          )}
-          keyExtractor={item => item[0]}
+          </View>
+        );
+
+        // console.log(item[1]?.storeInfo?.locName);
+      });
+      //  else {
+      //   console.log('no MATCH');
+      //   console.log(item[1]?.storeInfo?.locName);
+      // }
+      // console.log(element[1]?.storeInfo?.locAddress);
+      // });
+    }
+  };
+
+  render() {
+    const nav = this.props.navigation;
+    const { search } = this.state;
+
+    return (
+      <View style={styles.container}>
+        <SearchBar
+          inputContainerStyle={{ backgroundColor: 'white' }}
+          containerStyle={{
+            backgroundColor: 'white',
+          }}
+          placeholderTextColor={'#g5g5g5'}
+          placeholder="Search for store..."
+          onChangeText={this.updateSearch}
+          value={search}
         />
+        {this.renderStalls(search)}
       </View>
     );
   }
