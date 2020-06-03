@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Button, Text, Icon, Footer, FooterTab } from "native-base";
+import { Button, Text, Icon, Footer, FooterTab } from 'native-base';
 
 import Locations from './Screen/Locations/Locations.js';
 import Admin from './Screen/Admin/Admin.js';
@@ -33,7 +33,8 @@ const TabBar = props => {
         <Button
           vertical
           active={props.state.index === 0}
-          onPress={() => props.navigation.navigate("Locations")}>
+          onPress={() => props.navigation.navigate('Locations')}
+        >
           <Icon name="bowtie" />
           <Text>Locations</Text>
         </Button>
@@ -41,7 +42,8 @@ const TabBar = props => {
         <Button
           vertical
           active={props.state.index === 1}
-          onPress={() => props.navigation.navigate("User")}>
+          onPress={() => props.navigation.navigate('User')}
+        >
           <Icon name="briefcase" />
           <Text>User</Text>
         </Button>
@@ -49,15 +51,15 @@ const TabBar = props => {
         <Button
           vertical
           active={props.state.index === 2}
-          onPress={() => props.navigation.navigate("Admin")}>
+          onPress={() => props.navigation.navigate('Admin')}
+        >
           <Icon name="briefcase" />
           <Text>Admin</Text>
         </Button>
-
       </FooterTab>
     </Footer>
   );
-}
+};
 
 const LocationsStack = createStackNavigator();
 const LocationsStackNavigator = () => {
@@ -66,7 +68,7 @@ const LocationsStackNavigator = () => {
       <LocationsStack.Screen name="Locations" component={Locations} />
     </LocationsStack.Navigator>
   );
-}
+};
 
 const AdminStack = createStackNavigator();
 const AdminStackNavigator = () => {
@@ -77,8 +79,7 @@ const AdminStackNavigator = () => {
       <AdminStack.Screen name="Admin" component={Admin} />
     </AdminStack.Navigator>
   );
-}
-
+};
 
 const UserStack = createStackNavigator();
 const UserStackNavigator = () => {
@@ -87,8 +88,6 @@ const UserStackNavigator = () => {
       <UserStack.Screen name="User" component={Queuers} />
     </UserStack.Navigator>
   );
-}
-
-
+};
 
 export default App;

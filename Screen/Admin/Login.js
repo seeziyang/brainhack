@@ -1,6 +1,15 @@
 import React, { Component } from 'react';
 import { StyleSheet, Alert } from 'react-native';
-import { Container, Content, Form, Item, Input, Label, Button, Text } from 'native-base';
+import {
+  Container,
+  Content,
+  Form,
+  Item,
+  Input,
+  Label,
+  Button,
+  Text,
+} from 'native-base';
 
 import auth from '@react-native-firebase/auth';
 
@@ -9,25 +18,26 @@ export default class Login extends Component {
     super(props);
 
     auth().onAuthStateChanged(user => {
-      if (user) { // sign in
+      if (user) {
+        // sign in
         this.props.navigation.reset({
           index: 0,
           routes: [{ name: 'Admin' }],
-        })
+        });
       }
     });
 
     this.state = {
-      email: "",
-      password: "",
-    }
+      email: '',
+      password: '',
+    };
   }
 
   login = () => {
     auth()
       .signInWithEmailAndPassword(this.state.email, this.state.password)
       .catch(error => Alert.alert(error.message));
-  }
+  };
 
   render() {
     const nav = this.props.navigation;
@@ -42,15 +52,14 @@ export default class Login extends Component {
             </Item>
             <Item floatingLabel>
               <Label>Password</Label>
-              <Input onChangeText={password => this.setState({ password })} secureTextEntry />
+              <Input
+                onChangeText={password => this.setState({ password })}
+                secureTextEntry
+              />
             </Item>
           </Form>
 
-          <Button
-            block
-            style={styles.button}
-            onPress={this.login}
-          >
+          <Button block style={styles.button} onPress={this.login}>
             <Text>Login</Text>
           </Button>
 
@@ -58,7 +67,7 @@ export default class Login extends Component {
             block
             warning
             style={styles.button}
-            onPress={() => nav.navigate("SignUp")}
+            onPress={() => nav.navigate('SignUp')}
           >
             <Text>Sign Up</Text>
           </Button>
@@ -74,5 +83,5 @@ const styles = StyleSheet.create({
   },
   button: {
     margin: 10,
-  }
-})
+  },
+});

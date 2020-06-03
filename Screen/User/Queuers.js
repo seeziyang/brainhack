@@ -1,6 +1,15 @@
 import React, { Component } from 'react';
 import { Alert, StyleSheet, View, Switch } from 'react-native';
-import { Container, Content, Form, Item, Input, Label, Button, Text } from 'native-base';
+import {
+  Container,
+  Content,
+  Form,
+  Item,
+  Input,
+  Label,
+  Button,
+  Text,
+} from 'native-base';
 
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
@@ -11,13 +20,13 @@ export default class Queuers extends Component {
 
     this.state = {
       isQueueActive: false,
-      inQueue: {}
-    }
+      inQueue: {},
+    };
   }
 
   componentDidMount() {
-    console.log("mounted")
-    this.listenToQueue()
+    console.log('mounted');
+    this.listenToQueue();
   }
 
   // getStoreId = () => {
@@ -32,14 +41,14 @@ export default class Queuers extends Component {
   // }
 
   listenToQueue = () => {
-    console.log("database")
+    console.log('database');
     return database()
-      .ref("stores")
+      .ref('stores')
       .once('value')
       .then(snapshot => {
-        this.setState({ inQueue: snapshot.val() })
+        this.setState({ inQueue: snapshot.val() });
       });
-  }
+  };
 
   // toggleQueueActive = () => {
   //   console.log(`/admins/${auth().currentUser.uid}/storeId`)
@@ -49,30 +58,20 @@ export default class Queuers extends Component {
   //   this.setState({ isQueueActive: !prevState });
   // }
 
-
   render() {
     return (
-      < Container >
+      <Container>
         <Content style={styles.content}>
           <View style={styles.title}>
             <Text style={styles.titleText}>Please queue up for</Text>
           </View>
           <React.Fragment>
             {Object.entries(this.state.inQueue).map(store => {
-              return (<Text>{store[1]?.storeInfo?.locName}</Text>);
-            })
-            }
-
+              return <Text>{store[1]?.storeInfo?.locName}</Text>;
+            })}
           </React.Fragment>
-
-
-
-
-
-
-
         </Content>
-      </Container >
+      </Container>
     );
   }
 }
@@ -83,18 +82,18 @@ const styles = StyleSheet.create({
   },
   title: {
     margin: 10,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-end",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
   },
   titleText: {
     fontSize: 24,
-    fontWeight: "bold"
+    fontWeight: 'bold',
   },
   form: {
     margin: 10,
   },
   button: {
     margin: 10,
-  }
-})
+  },
+});

@@ -12,8 +12,8 @@ export default class Admin extends Component {
 
     this.state = {
       isQueueActive: true,
-      inQueue: {}
-    }
+      inQueue: {},
+    };
   }
 
   componentDidMount() {
@@ -28,17 +28,16 @@ export default class Admin extends Component {
       .once('value')
       .then(snapshot => {
         this.storeId = snapshot.val();
-      })
-  }
+      });
+  };
 
   listenToQueue = () => {
-    this.queueListener =
-      database()
-        .ref(`/stores/${this.storeId}/queue/inQueue`)
-        .on('value', snapshot => {
-          this.setState({ inQueue: snapshot.val() ?? {} });
-        })
-  }
+    this.queueListener = database()
+      .ref(`/stores/${this.storeId}/queue/inQueue`)
+      .on('value', snapshot => {
+        this.setState({ inQueue: snapshot.val() ?? {} });
+      });
+  };
 
   toggleQueueActive = () => {
     const prevState = this.state.isQueueActive;
@@ -49,7 +48,7 @@ export default class Admin extends Component {
       .set(!prevState);
 
     // TODO: delete queue info?
-  }
+  };
 
   signOut = () => {
     auth()
@@ -60,13 +59,13 @@ export default class Admin extends Component {
           routes: [{ name: 'Login' }],
         });
       });
-  }
+  };
 
   letIn = queueNo => {
     database()
       .ref(`/stores/${this.storeId}/queue/inQueue/${queueNo}/status`)
-      .set("letIn");
-  }
+      .set('letIn');
+  };
 
   letInNext = () => {
     const queue = this.state.inQueue;
@@ -76,23 +75,31 @@ export default class Admin extends Component {
         return;
       }
     }
-  }
+  };
 
   removeFromQueue = queueNo => {
     database()
       .ref(`/stores/${this.storeId}/queue/inQueue/${queueNo}`)
       .remove();
-  }
+  };
 
   renderQueue = () => {
     return (
       <View>
-        <Button rounded large success iconLeft
+        <Button
+          rounded
+          large
+          success
+          iconLeft
           disabled={Object.keys(this.state.inQueue).length === 0}
           onPress={this.letInNext}
           style={styles.nextButton}
         >
-          <Icon ios='ios-walk' android='md-walk' style={styles.nextButtonText} />
+          <Icon
+            ios="ios-walk"
+            android="md-walk"
+            style={styles.nextButtonText}
+          />
           <Text style={styles.nextButtonText}>Next</Text>
         </Button>
 
@@ -118,7 +125,7 @@ export default class Admin extends Component {
         />
       </View>
     );
-  }
+  };
 
   render() {
     return (
@@ -126,7 +133,10 @@ export default class Admin extends Component {
         <Content style={styles.content}>
           <View style={styles.title}>
             <Text style={styles.titleText}>Queue</Text>
-            <Switch value={this.state.isQueueActive} onValueChange={this.toggleQueueActive} />
+            <Switch
+              value={this.state.isQueueActive}
+              onValueChange={this.toggleQueueActive}
+            />
           </View>
 
           {this.state.isQueueActive && this.renderQueue()}
@@ -151,38 +161,37 @@ const styles = StyleSheet.create({
   },
   title: {
     margin: 10,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-end",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
   },
   titleText: {
     fontSize: 24,
-    fontWeight: "bold"
+    fontWeight: 'bold',
   },
   text: {
     margin: 10,
     fontSize: 20,
-    textAlign: "center"
+    textAlign: 'center',
   },
   nextButton: {
     margin: 10,
     width: Dimensions.get('window').width / 2,
     justifyContent: 'center',
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   nextButtonText: {
     fontSize: 30,
-    fontWeight: "bold",
-    color: 'black'
+    fontWeight: 'bold',
+    color: 'black',
   },
-  queueNoButtonList: {
-  },
+  queueNoButtonList: {},
   queueNoButton: {
     margin: 10,
-    minWidth: "20%",
-    justifyContent: "center"
+    minWidth: '20%',
+    justifyContent: 'center',
   },
   signOutButton: {
     margin: 10,
-  }
-})
+  },
+});
