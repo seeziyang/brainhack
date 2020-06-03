@@ -25,6 +25,7 @@ export default class LocationDetail extends Component {
     this.state = {
       store: {},
       isUserInQueue: false,
+      userQueueNo: null,
     };
   }
 
@@ -43,7 +44,7 @@ export default class LocationDetail extends Component {
   listenToStore = () => {
     const storeId = this.props.route.params.storeId;
 
-    this.storeListener = database()
+    database()
       .ref(`/stores/${storeId}`)
       .on('value', snapshot => {
         let store = snapshot.val();
@@ -66,7 +67,7 @@ export default class LocationDetail extends Component {
         // if doesnt exists, user was removed from queue
         if (store?.queue?.inQueue?.[queueNo]) {
           // still queueing in db
-          this.setState({ isUserInQueue: true });
+          this.setState({ isUserInQueue: true, userQueueNo: queueNo });
         } else {
           this.setState({ isUserInQueue: false }); // user removed from queue
           delete activeQueues[storeId];
@@ -106,8 +107,9 @@ export default class LocationDetail extends Component {
           return queue;
         },
         (error, commited, snapshot) => {
-          this.setState({ isUserInQueue: true });
-          this.saveToStorage(storeId, snapshot.val()?.lastNum);
+          let userQueueNo = snapshot.val()?.lastNum;
+          this.setState({ isUserInQueue: true, userQueueNo: userQueueNo });
+          this.saveToStorage(storeId, userQueueNo);
         }
       );
   };
@@ -120,6 +122,16 @@ export default class LocationDetail extends Component {
       await AsyncStorage.setItem('activeQueues', JSON.stringify(activeQueues));
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  getNumQueuersInFront = () => {
+    let inQueueNumbers = Object.keys(this.state.store.queue?.inQueue ?? {});
+    let userIndex = inQueueNumbers.indexOf(this.state.userQueueNo);
+    if (userIndex === -1) {
+      return 0; // should not happen
+    } else {
+      return userIndex;
     }
   };
 
@@ -173,7 +185,10 @@ export default class LocationDetail extends Component {
                 </Text>
 
                 {this.state.isUserInQueue && (
-                  <Text>There are TODO person waiting in front of you.</Text>
+                  <View>
+                    <Text>{`Your Queue No: ${this.state.userQueueNo}`}</Text>
+                    <Text>{`There are ${this.getNumQueuersInFront()} person waiting in front of you.`}</Text>
+                  </View>
                 )}
               </View>
             </CardItem>

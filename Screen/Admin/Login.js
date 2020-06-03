@@ -17,7 +17,7 @@ export default class Login extends Component {
   constructor(props) {
     super(props);
 
-    auth().onAuthStateChanged(user => {
+    this.authListener = auth().onAuthStateChanged(user => {
       if (user) {
         // sign in
         this.props.navigation.reset({
@@ -31,6 +31,10 @@ export default class Login extends Component {
       email: '',
       password: '',
     };
+  }
+
+  componentWillUnmount() {
+    this.authListener(); // unsuscribe
   }
 
   login = () => {
