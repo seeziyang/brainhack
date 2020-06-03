@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Dimensions, Alert } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  Alert,
+  FlatList,
+  Image,
+} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import {
@@ -169,22 +176,43 @@ export default class LocationDetail extends Component {
     const numQueuers = Object.keys(queue?.inQueue ?? {}).length;
 
     return (
-      <Container>
-        <Content>
-          <Card>
-            <CardItem>
-              <Text>{locName}</Text>
-            </CardItem>
+      <View style={styles.container}>
+        <Content style={styles.card}>
+          <Header />
 
-            <CardItem>
-              <View>
-                <Text>{locType}</Text>
-                <Text>{locAddress}</Text>
-                <Text>{locPostalCode}</Text>
-              </View>
-            </CardItem>
-          </Card>
+          <Text
+            style={{
+              fontFamily: 'Hiragino Sans',
+              fontSize: 30,
+              fontWeight: 'bold',
+              justifyContent: 'center',
+              textAlignVertical: 'center',
+              textAlign: 'center',
+            }}
+          >
+            {locName}
+          </Text>
 
+          {this.state.isUserInQueue && (
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                Text_Padding: 100,
+                justifyContent: 'center',
+                textAlignVertical: 'center',
+                textAlign: 'center',
+              }}
+            >
+              <Text
+                style={{
+                  fontFamily: 'Georgia',
+                  fontSize: 15,
+                  fontWeight: 'bold',
+                }}
+              >{` ${this.getNumQueuersInFront()} person before you.`}</Text>
+            </View>
+          )}
           <Button
             rounded
             large
@@ -205,6 +233,13 @@ export default class LocationDetail extends Component {
           <Card>
             <CardItem>
               <View>
+                <View>
+                  <Body>
+                    <Text>Type: {locType}</Text>
+                    <Text>Address: {locAddress}</Text>
+                    <Text>Postal Code: {locPostalCode}</Text>
+                  </Body>
+                </View>
                 <Text>
                   {isActive
                     ? `${numQueuers} person waiting in line`
@@ -244,7 +279,7 @@ export default class LocationDetail extends Component {
             </Button>
           )}
         </Content>
-      </Container>
+      </View>
     );
   }
 }
@@ -260,5 +295,75 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
     color: 'black',
+  },
+  container: {
+    flex: 1,
+    backgroundColor: 'rgb(40, 53, 147  )',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderBottomWidth: 1,
+    borderRadius: 1,
+    borderWidth: 2,
+  },
+  header: {
+    paddingTop: 64,
+    paddingBottom: 16,
+    backgroundColor: '#FFF',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#EBECF4',
+    shadowColor: '#454D65',
+    shadowOffset: { height: 5 },
+    shadowRadius: 15,
+    shadowOpacity: 0.2,
+    zIndex: 10,
+  },
+  headerTitle: {
+    fontSize: 20,
+    fontWeight: '500',
+  },
+  feed: {
+    marginHorizontal: 16,
+  },
+  feedItem: {
+    backgroundColor: '#FFF',
+    borderRadius: 5,
+    padding: 8,
+    flexDirection: 'row',
+    marginVertical: 8,
+  },
+  avatar: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    marginRight: 16,
+  },
+  name: {
+    fontSize: 15,
+    fontWeight: '500',
+    color: '#454D65',
+  },
+  timestamp: {
+    fontSize: 11,
+    color: '#C4C6CE',
+    marginTop: 4,
+  },
+  post: {
+    marginTop: 16,
+    fontSize: 14,
+    color: '#838899',
+  },
+  postImage: {
+    width: undefined,
+    height: 150,
+    borderRadius: 5,
+    marginVertical: 16,
+  },
+  card: {
+    flex: 1,
+    borderRadius: 1,
+    borderWidth: 2,
+    backgroundColor: 'white',
   },
 });
