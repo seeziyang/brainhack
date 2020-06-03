@@ -36,8 +36,8 @@ export default class Queuers extends Component {
     return database()
       .ref("stores")
       .once('value')
-      .then((snapshot) => {
-        this.setState({ inQueue: snapshot.toJSON() })
+      .then(snapshot => {
+        this.setState({ inQueue: snapshot.val() })
       });
   }
 
@@ -58,8 +58,8 @@ export default class Queuers extends Component {
             <Text style={styles.titleText}>Please queue up for</Text>
           </View>
           <React.Fragment>
-            {Object.keys(this.state.inQueue).map(category => {
-              return (<Text>{category.storeInfo}</Text>);
+            {Object.entries(this.state.inQueue).map(store => {
+              return (<Text>{store[1]?.storeInfo?.locName}</Text>);
             })
             }
 

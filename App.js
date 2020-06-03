@@ -47,7 +47,7 @@ const TabBar = props => {
 
         <Button
           vertical
-          active={props.state.index === 1}
+          active={props.state.index === 2}
           onPress={() => props.navigation.navigate("User")}>
           <Icon name="briefcase" />
           <Text>User</Text>
