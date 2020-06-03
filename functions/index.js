@@ -36,8 +36,17 @@ exports.sendLetInNotif = functions.database
             title: `It is your turn at ${storeName}`,
             body: 'Please head there now!',
           },
+          data: {
+            storeName: storeName,
+            storeId: context.params.storeId,
+            msg: `It is your turn at ${storeName}, please head there now!`,
+          },
         };
 
-        return admin.messaging().sendToDevice(fcmToken, payload);
+        let options = {
+          priority: 'high',
+        };
+
+        return admin.messaging().sendToDevice(fcmToken, payload, options);
       });
   });
