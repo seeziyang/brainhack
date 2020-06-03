@@ -3,11 +3,10 @@ import { FlatList, StyleSheet, View, Image } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import {
   Container,
-  Header,
+  Fab,
   Content,
   Card,
   CardItem,
-  Thumbnail,
   Text,
   Button,
   Icon,
