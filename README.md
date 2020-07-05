@@ -17,6 +17,6 @@ The app was built over 2 nights with React Native and Firebase.
 
 ### Team Members
 - Bernice Wan
-- Chan Jing Jine
+- Chan Jing Jie
 - See Zi Yang
 - Wu Jun Chern
