@@ -67,7 +67,7 @@ export default class MyQueues extends Component {
 
   getNumQueuersInFront = (store, userQueueNo) => {
     let inQueueNumbers = Object.keys(store.queue?.inQueue ?? {});
-    let userIndex = inQueueNumbers.indexOf(userQueueNo);
+    let userIndex = inQueueNumbers.indexOf(`${userQueueNo}`);
     if (userIndex === -1) {
       return 0; // should not happen
     } else {

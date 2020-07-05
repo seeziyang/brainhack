@@ -91,9 +91,6 @@ export default class Locations extends Component {
                         <Text>Reviews: {item[1]?.storeInfo?.reviews}</Text>
                       </Button>
                     </Body>
-                    <Right>
-                      <Text>11h ago</Text>
-                    </Right>
                   </CardItem>
                 </Card>
               )}

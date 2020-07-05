@@ -21,6 +21,8 @@ const Tab = createBottomTabNavigator();
 
 export default class App extends Component {
   componentDidMount() {
+    console.disableYellowBox = true;
+
     this.checkPermissions();
     this.suscribeToMsgs();
   }
