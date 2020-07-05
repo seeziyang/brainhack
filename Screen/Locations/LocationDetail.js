@@ -157,7 +157,7 @@ export default class LocationDetail extends Component {
 
   getNumQueuersInFront = () => {
     let inQueueNumbers = Object.keys(this.state.store.queue?.inQueue ?? {});
-    let userIndex = inQueueNumbers.indexOf(this.state.userQueueNo);
+    let userIndex = inQueueNumbers.indexOf(`${this.state.userQueueNo}`);
     if (userIndex === -1) {
       return 0; // should not happen
     } else {
